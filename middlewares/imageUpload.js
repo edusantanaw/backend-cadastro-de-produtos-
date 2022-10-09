@@ -11,6 +11,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).array('image');
 const uploadImages = async (req, res, next) => {
+
     upload(req, res, function( err) {
         if (err) {
             console.log(err);

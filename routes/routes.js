@@ -8,6 +8,8 @@ const {
   updateProduct,
   updateRepositore,
   removeProduct,
+  getProductsWithDesc,
+  getProductByBrand
 } = require("../controllers/product/Products");
 
 const {
@@ -36,14 +38,18 @@ router.post("/newproduct", isAdmin, uploadImages, newProduct);
 router.put("/product/edit/:id", isAdmin, uploadImages, updateProduct);
 router.put("/product/repositore/:id", isAdmin, updateRepositore);
 router.delete("/product/delete/:id", isAdmin, removeProduct);
-router.get("/searchproduct", searchProduct);
+router.get("/searchproduct/:name", searchProduct);
+router.get('/products/desc', getProductsWithDesc)
 router.get("/product/:id", getProductById);
 router.get("/category", getCategory);
 router.get("/category/products", getProductsByCategory);
-router.post('/category/newcategory', isAdmin, newCategory)
+router.post('/category/newcategory', isAdmin,uploadImages, newCategory)
 router.delete('/category/delete/:id', isAdmin, removeCategory)
 router.put('/category/update/:id', isAdmin, updateCategory)
 router.get('/admin/alluser', isAdmin, getAllClients)
+router.get('/brands/:name', getProductByBrand)
+
+
 // client routes
 router.post("/signup", newClient);
 router.post("/signin", login);

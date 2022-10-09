@@ -3,23 +3,23 @@ const Category = require("../../models/category");
 const Product = require("../../models/product");
 
 const newCategory = async (req, res) => {
-  const name = req.body.name;
+  const name = req.body.name
   const image = req.files;
-
   try {
     existsOrError(name, "O nome da categoria é necessario!");
-
+    existsOrError(image, 'A imagem é necessaria!')
     const notExistsCategory = await Category.findOne({ name: name });
 
     if (notExistsCategory) throw "Esta categoria já existe!";
 
     const category = new Category({
       name: name,
-      image: image,
+      image: image[0],
     });
     await category.save();
 
     res.status(200).send("Categoria criada com sucesso!");
+
   } catch (err) {
     res.status(401).send(err);
   }
@@ -28,7 +28,7 @@ const newCategory = async (req, res) => {
 const updateCategory = async (req, res) => {
   const id = req.params.id;
   const name = req.body.name;
-  const image = req.files;
+  const image = req.file;
 
   try {
     verifyId(id);
@@ -37,7 +37,7 @@ const updateCategory = async (req, res) => {
     if (!category) throw "Nenhuma categoria foi encontrada!";
 
     if (name) category.name = name;
-    if (image) category.image = image;
+    if (image) category.image = image[0];
 
     await Category.findOneAndUpdate(
       { _id: category._id },
@@ -74,13 +74,15 @@ const removeCategory = async (req, res) => {
 const getCategory = async (req, res)=>{
 
     try{
-        const categories= Category.find({})
-        if(!categories) throw "nenhum categoria encontrada!"
+        const categories= await Category.find({})
+
+        if(!categories || categories.length === 0) throw "nenhum categoria encontrada!"
         
         res.status(200).send(categories)
 
     }catch(err){
-        re.status(400).send(err)
+      
+        res.status(400).send(err)
     }
 
 }

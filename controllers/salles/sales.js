@@ -25,7 +25,7 @@ const buyAProduct = async (req, res) => {
       if (!product) throw "Produto não encontrado!";
       if (product.quantity <= 0) throw `${product.name} não esta disponivel!`;
 
-      totalsToPay += product.price;
+      totalsToPay += (product.price * (1 - product.desc));
       product.quantity = product.quantity - 1;
 
       await Product.findOneAndUpdate(

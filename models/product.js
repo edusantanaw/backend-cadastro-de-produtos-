@@ -23,6 +23,10 @@ const Product = new mongoose.model(
     image: {
       type: Array,
     },
+    desc:{
+      type: Number,
+      default: 0
+    },
     quantity:{
       type: Number,
       default: 0

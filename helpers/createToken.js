@@ -17,6 +17,7 @@ const createClientToken = (client, req, res) => {
             name: client.name,
             email: client.email,
             id: client._id,
+            admin: client.admin
         },
     });
 };
